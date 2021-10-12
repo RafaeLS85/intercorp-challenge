@@ -1,0 +1,77 @@
+<div class="container">
+  <h2>Listado de clientes</h2>
+
+  <div class="card-container">
+    <mat-card class="card">
+      Promedio de edad de los clientes:
+      <strong>{{ getAverageAge(clients) | number: "1.0-0" }}</strong>
+    </mat-card>
+    <mat-card class="card">
+      Desviación estándar entre las edades:
+      <strong>
+        {{ getStandardDeviationOfSample() }}
+      </strong>
+    </mat-card>
+  </div>
+
+  <div class="mat-elevation-z8">
+    <ng-container *ngIf="isLoading; else elseBlock">
+      <div class="center">
+        <sa-spinner-round-filled
+          [size]="50"
+          [thickness]="100"
+          [speed]="100"
+          color="#dd0031"
+        ></sa-spinner-round-filled>
+      </div>
+    </ng-container>
+
+    <ng-template #elseBlock>
+      <table mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Nombre</th>
+          <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="lastName">
+          <th mat-header-cell *matHeaderCellDef>Apellido</th>
+          <td mat-cell *matCellDef="let element">{{ element.lastName }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="age">
+          <th mat-header-cell *matHeaderCellDef>Edad</th>
+          <td mat-cell *matCellDef="let element">{{ element.age }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="birthdate">
+          <th mat-header-cell *matHeaderCellDef>Fecha de nacimiento</th>
+          <td mat-cell *matCellDef="let element">{{ element.birthdate }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Acciones</th>
+          <td mat-cell *matCellDef="let element" class="action-link">
+            <a
+              class="actions"
+              (click)="goToDetail(element)"
+              matTooltip="Proyección y análisis de cliente"
+            >
+              <mat-icon>visibility</mat-icon></a
+            >
+
+            <a
+              class="actions"
+              (click)="onDelete(element)"
+              matTooltip="Eliminar"
+            >
+              <mat-icon>delete</mat-icon>
+            </a>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </ng-template>
+  </div>
+</div>

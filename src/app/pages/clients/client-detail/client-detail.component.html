@@ -1,0 +1,38 @@
+<div class="container">
+  <h2>Proyección y análisis de cliente</h2>
+
+  <ng-container *ngIf="isLoading; else elseBlock">
+    <div class="center">
+      <sa-spinner-round-filled
+        [size]="50"
+        [thickness]="100"
+        [speed]="100"
+        color="#dd0031"
+      ></sa-spinner-round-filled>
+    </div>
+  </ng-container>
+
+  <ng-template #elseBlock>
+    <mat-list>
+      <mat-list-item> Nombre: <strong> {{ client.name }}</strong> </mat-list-item>
+      <mat-list-item> Apellido: <strong> {{ client.lastName }}</strong> </mat-list-item>
+      <mat-list-item> Edad: <strong> {{ getAge(client.birthdate) }}</strong> </mat-list-item>
+      <mat-list-item>
+        Fecha de nacimiento: <strong> {{ client.birthdate }}</strong> 
+      </mat-list-item>
+      <mat-list-item>
+        Fecha probable de muerte: <strong> {{ getDateOfDeath(client.birthdate) }}</strong>
+      </mat-list-item>
+    </mat-list>
+  </ng-template>
+
+  <button
+    class="back-button"
+    mat-raised-button
+    color="primary"
+    [routerLink]="['/client-list']"
+    routerLinkActive="router-link-active"
+  >
+    Volver
+  </button>
+</div>
