@@ -11,7 +11,6 @@ import { getAge } from '../utils/share-functions';
   styleUrls: ['./new-client.component.scss'],
 })
 export class NewClientComponent {
-  
   date;
 
   clientForm = new FormGroup({
@@ -29,8 +28,8 @@ export class NewClientComponent {
   onSubmit() {
     if (this.clientForm.valid) {
       try {
+        this.validateAge();
         this.clientForm.get('birthdate').setValue(this.date);
-        this.validateAge()
 
         this.service
           .createClient(this.clientForm.value)
@@ -40,21 +39,20 @@ export class NewClientComponent {
           })
           .catch((err) => {
             this.openSnackBar(err, 'Cerrar');
-          });       
-
+          });
       } catch (error) {
         this.openSnackBar(error, 'Cerrar');
       }
     }
   }
 
-  validateAge(){    
-    if (getAge(this.date) > 125) {      
+  validateAge() {
+    if (getAge(this.date) > 125) {
       throw new Error('Edad fuera de rango');
     } else if (getAge(this.date) <= 0) {
       throw new Error('Debe tener al menos un año de edad');
-    }else{
-      throw new Error("No es una fecha valida")
+    } else if (isNaN(getAge(this.date))) {
+      throw new Error('No es una fecha valida');
     }
   }
 
